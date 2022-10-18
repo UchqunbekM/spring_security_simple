@@ -19,11 +19,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN")
+                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN").authorities("READ_ALL")
                 .and()
                 .withUser("user").password(passwordEncoder().encode("user")).roles("USER")
                 .and()
-                .withUser("manager").password(passwordEncoder().encode("manager")).roles("MANAGER");
+                .withUser("admin1").password(passwordEncoder().encode("admin1")).roles("ADMIN").authorities("ADD_PRODUCT");
     }
 
     @Override
@@ -34,6 +34,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.GET,"/api/product/*").hasRole("MANAGER")
 //                .antMatchers(HttpMethod.GET,"/api/product/**").hasRole("USER")
 //                .antMatchers("/api/product/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.GET,"/api/product/** ").hasAnyAuthority("READ_ALL")
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -18,13 +18,13 @@ public class ProductCont {
     @Autowired
     ProductRepo productRepo;
 
-    @PreAuthorize(value = "hasAnyRole('USER','ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('READ_ALL')")
     @GetMapping
     public HttpEntity<?> get() {
         return ResponseEntity.ok(productRepo.findAll());
     }
 
-    @PreAuthorize(value = "hasRole('MANAGER')")
+    @PreAuthorize(value = "hasAnyAuthority('ADD_PRODUCT')")
     @PostMapping
     public HttpEntity<?> save(@RequestBody Product product) {
         return ResponseEntity.ok(productRepo.save(product));
