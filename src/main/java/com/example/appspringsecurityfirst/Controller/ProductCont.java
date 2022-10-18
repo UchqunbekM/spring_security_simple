@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -17,11 +18,13 @@ public class ProductCont {
     @Autowired
     ProductRepo productRepo;
 
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN')")
     @GetMapping
-    public HttpEntity<?> getProduct() {
+    public HttpEntity<?> get() {
         return ResponseEntity.ok(productRepo.findAll());
     }
 
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PostMapping
     public HttpEntity<?> save(@RequestBody Product product) {
         return ResponseEntity.ok(productRepo.save(product));
